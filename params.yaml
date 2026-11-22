@@ -1,0 +1,31 @@
+data:
+  raw_train_path: "data/raw/train.csv"
+  raw_later_path: "data/raw/later.csv"
+  raw_holdout_path: "data/raw/holdout_features.csv"
+  processed_dir: "data/processed"
+
+train:
+  target_col: "delivery_days"
+  drop_cols:
+    - "record_id"
+    - "date"
+    - "days_from_tracking_page"
+  categorical_cols:
+    - "service"
+    - "destination"
+  numeric_cols:
+    - "distance_km"
+    - "weight_kg"
+    - "hub_backlog"
+    - "pin_code_tier"
+    - "declared_value_rs"
+    - "transfers"
+  test_size: 0.2
+  random_state: 42
+
+model:
+  experiment_name: "mp291_parcel_delivery"
+  registered_model_name: "mp291_delivery_predictor"
+  tracking_uri: "sqlite:///mlflow.db"
+  models_dir: "models"
+  model_path: "models/model.joblib"
