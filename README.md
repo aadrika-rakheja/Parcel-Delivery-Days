@@ -10,13 +10,11 @@
 
 ## 👥 Group Members
 
-| Enrolment No. | Name | Role |
-| :--- | :--- | :--- |
-| **S24CSEU0875** | Chinta Sri CharanReddy | Data Lead |
-| **S24CSEU0951** | AadrikaRakheja | Model Lead |
-| **S24CSEU0957** | GaytriBembadeSantosh | Service Lead |
-| **S24CSEU0942** | suryasinghpratap | Ops Lead |
-
+| Enrolment No. | Name | 
+| :--- | :--- | 
+| **S24CSEU0875** | Chinta Sri CharanReddy | 
+| **S24CSEU0951** | AadrikaRakheja |
+| **S24CSEU0942** | suryasinghpratap |
 ---
 
 ## 📦 Project Stages Overview
