@@ -8,8 +8,14 @@ from datetime import datetime, timezone
 import json
 import logging
 import os
+from pathlib import Path
 import sys
 from typing import Any, Dict, Optional, Union
+
+# Ensure src/ is on sys.path so mp291 package is discoverable from any launch command
+SRC_PATH = Path(__file__).resolve().parent.parent / "src"
+if str(SRC_PATH) not in sys.path:
+    sys.path.insert(0, str(SRC_PATH))
 
 from fastapi import FastAPI, HTTPException, status
 import joblib
