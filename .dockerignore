@@ -1,0 +1,17 @@
+.git
+.gitignore
+.dvc
+.dvcignore
+data/
+mlruns/
+mlartifacts/
+tests/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store
+*.swp
