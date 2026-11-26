@@ -37,7 +37,7 @@ class JSONFormatter(logging.Formatter):
 # Configure JSON logger to stdout
 logger = logging.getLogger("mp291.api")
 logger.setLevel(logging.INFO)
-logger.propagate = False
+logger.propagate = True
 
 if not logger.handlers:
     stream_handler = logging.StreamHandler(sys.stdout)

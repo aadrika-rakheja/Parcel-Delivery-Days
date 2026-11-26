@@ -97,27 +97,33 @@ def test_predict_missing_required_field(client, valid_payload):
     assert response.status_code == 422
 
 
-def test_json_logging_format(client, valid_payload, caplog):
+def test_json_logging_format(client, valid_payload):
     """Verify that predictions emit structured JSON log conforming to client rules."""
+    from io import StringIO
     import logging
-    from app.main import JSONFormatter
+    from app.main import JSONFormatter, logger
 
-    with caplog.at_level(logging.INFO, logger="mp291.api"):
+    stream = StringIO()
+    test_handler = logging.StreamHandler(stream)
+    test_handler.setFormatter(JSONFormatter())
+    logger.addHandler(test_handler)
+    try:
         response = client.post("/predict", json=valid_payload)
         assert response.status_code == 200
 
-        # Verify structured log record exists
-        pred_records = [
-            r for r in caplog.records
-            if r.name == "mp291.api" and getattr(r, "props", {}).get("event") == "prediction"
-        ]
-        assert len(pred_records) >= 1
-        record = pred_records[-1]
+        output = stream.getvalue()
+        lines = [line.strip() for line in output.split("\n") if line.strip()]
+        prediction_lines = []
+        for line in lines:
+            try:
+                data = json.loads(line)
+                if data.get("event") == "prediction":
+                    prediction_lines.append(data)
+            except json.JSONDecodeError:
+                pass
 
-        # Verify JSONFormatter outputs valid JSON with required metadata
-        formatter = JSONFormatter()
-        formatted_str = formatter.format(record)
-        parsed = json.loads(formatted_str)
+        assert len(prediction_lines) >= 1
+        parsed = prediction_lines[-1]
 
         assert parsed.get("level") == "INFO"
         assert parsed.get("event") == "prediction"
@@ -125,3 +131,5 @@ def test_json_logging_format(client, valid_payload, caplog):
         assert parsed.get("destination") == valid_payload["destination"]
         assert "prediction" in parsed
         assert "timestamp" in parsed
+    finally:
+        logger.removeHandler(test_handler)
